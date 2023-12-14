@@ -1,0 +1,59 @@
+{% extends "./admin/layout.html" %}
+
+{% block title %}
+  Search Results
+{% endblock %}
+
+{% block main %}
+
+<div class="container-fluid">
+  <br>
+  <h2 class="text-center">Search Results</h2>
+  <br>
+  <br>
+  <form action="/admin/searchquote" method="POST">
+    <button type="submit">Search Again</button>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Quote ID</th>
+          <th>Date</th>
+          <th>Customer</th>
+          <th>Associate</th>
+          <th></th>
+          <th>City</th>
+          <th>Contact</th>
+          <th>Current Price</th>
+          <th>Commission</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quote in quotesearch %}
+          <tr>
+            <td>{{ quote[0] }}</td>
+            <td>{{ quote[1] }}</td>
+            <td>{{ quote[2] }}</td>
+            <td>{{ quote[3] }}</td>
+            <td>{{ quote[4] }}</td>
+            <td>{{ quote[5] }}</td>
+            <td>{{ quote[6] }}</td>
+            {% if quote[7] is not none %}
+              <td>{{ "%.2f" | format(quote[7]) }}</td>
+            {% else %}
+              <td>N/A</td>
+            {% endif %}
+            {% if quote[8] is not none %}
+              <td>{{ "%.2f" | format(quote[8]) }}</td>
+            {% else %}
+              <td>N/A</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "./associate/layout.html" %}
+
+{% block title %}
+  New Quote - Select Customer
+{% endblock %}
+
+{% block main %}
+<div class="container-fluid">
+  <br>
+  <h2 class="text-center">New Quote</h2>
+  <br>
+  <div class="container container-fluid" style="max-width: 400px" id="customerSelectForm">
+    <form action="/associate/createquote" method="POST">
+      <div class="form-group">
+        <label for="selectCustomer">Select a Customer</label>
+        <select class="form-control" id="customer" name="customer">
+        {% for row in customers %}
+          <option value="{{ row[1] }}"> {{ row[0] }}</option>
+        {% endfor %}
+        </select>
+        <br>
+        <label for="customerEmail">Customer Email</label>
+        <input type="email" id="custEmail" name="custEmail" required>
+        <button type="submit" class="btn btn-primary">Confirm</button><br>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

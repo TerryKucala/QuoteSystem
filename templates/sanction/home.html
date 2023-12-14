@@ -1,0 +1,51 @@
+{% extends "./sanction/layout.html" %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block main %}
+
+<div class="container mt-4">
+  <h2 class="text-center">Finalized Quotes List</h2>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Quote ID</th>
+          <th>Date</th>
+          <th>Customer</th>
+          <th>Contact</th>
+          <th>Current Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quote in finalized_quotes %}
+          <tr>
+            <td>{{ quote[0] }}</td>
+            <td>{{ quote[11] }}</td>
+            <td>{{ quote[13] }}</td>
+            <td>{{ quote[3] }}</td>
+            {% if quote[17] is not none %}
+              <td>{{ "%.2f" | format(quote[17]) }}</td>
+            {% else %}
+              <td>N/A</td>
+            {% endif %}
+            <td>
+              <form action="/sanction/editquote" method="POST">
+                <input type="hidden" name="edit_quote_id" value="{{ quote[0] }}">
+                <button type="submit">Edit</button>
+              </form>
+              <form action="/sanction/delconfirm" method="POST">
+                <input type="hidden" name="del_quote_id" value="{{ quote[0] }}">
+                <button type="submit">Del</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

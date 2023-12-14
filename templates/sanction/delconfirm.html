@@ -1,0 +1,28 @@
+{% extends "./sanction/layout.html" %}
+
+{% block title %}
+  Delete Quote
+{% endblock %}
+
+{% block main %}
+
+<div class="container-fluid">
+  <br>
+  <h2 class="text-center">Confirm delete?</h2>
+  <p class="text-center"> {{ quote[11] }}</p>
+  <p class="text-center"> {{ quote[13] }}</p>
+  <p class="text-center"> {{ quote[16] }}</p>
+  <p class="text-center"> Total: ${{ price }}</p>
+  <hr>
+  {% for li in line_items %}
+    <p class="text-center"> {{ li[1] }} : ${{ li[2] }}</p>
+  {% endfor %}
+</div>
+
+<div class="form-group text-center">
+  <form action="/sanction/delquote" id="del_quote_form" method="POST"></form>
+  <button form="del_quote_form" type="submit" name="del_quote_submit" value="{{ quote[0]}}"> Delete</button>
+  <a href="/sanction"><button id="back_button" name="back_button">Back</button></a>
+</div>
+
+{% endblock %}

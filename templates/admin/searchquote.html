@@ -1,0 +1,59 @@
+{% extends "./admin/layout.html" %}
+
+{% block title %}
+  Search Quote
+{% endblock %}
+
+{% block main %}
+<div class="container-fluid">
+  <br>
+  <h2 class="text-center">Search for Quote</h2>
+  <br>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form action="/admin/searchquoteresults" method="POST">
+        <div class="form-group">
+          <h3 class="text-center">Quote Status</h3>
+          <div class="text-center">
+            <input type="radio" id="All" name="status" value="All" checked="checked">
+            <label for="All">Any Status</label><br>
+            <input type="radio" id="Finalized" name="status" value="Finalized">
+            <label for="Finalized">Finalized</label><br>
+            <input type="radio" id="Sanctioned" name="status" value="Sanctioned">
+            <label for="css">Sanctioned</label><br>
+            <input type="radio" id="Ordered" name="status" value="Ordered">
+            <label for="javascript">Ordered</label>
+          </div>
+          <br>
+          <h3 class="text-center">Quote Date Range</h3>
+          <div class="text-center">
+            <label for="afterdate">After Date</label>
+            <br>
+            <input type="date" min="2022-12-25" id="afterdate" name="afterdate" required>
+            <br>
+            <label for="datebefore">Before Date</label>
+            <br>
+            <input type="date" min="2022-12-25" id="beforedate" name="beforedate" required>
+          </div>
+          <br>
+          <h3 class="text-center">(Optional) Search by:</h3>
+          <div class="text-center">
+            <input type="radio" id="Associate" name="person" value="Username" checked="checked">
+            <label for="Associate">Associate</label><br>
+            <input type="radio" id="Customer" name="person" value="CustName">
+            <label for="css">Customer</label><br>
+            <label for="searchterm">Search</label>
+            <br>
+            <input type="text" min="0" id="searchterm" name="searchterm">
+          </div>
+          <br>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary mr-2">Search</button>
+            <a href="/admin" class="btn btn-secondary">Back</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

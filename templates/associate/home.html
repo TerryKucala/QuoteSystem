@@ -1,0 +1,63 @@
+{% extends "./associate/layout.html" %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block main %}
+
+<div class="container-fluid">
+  <br>
+  <h2 class="text-center">Welcome, {{ session["associate_firstName"] }}</h2>
+  <br>
+</div>
+
+{% if session["associate_id"] %}
+  <div class="container mt-4">
+    <h2 class="text-center">Quotes List</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Quote ID</th>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Contact</th>
+            <th>Current Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for quote in quotes %}
+            <tr>
+              <td>{{ quote[0] }}</td>
+              <td>{{ quote[11] }}</td>
+              <td>{{ quote[13] }}</td>
+              <td>{{ quote[3] }}</td>
+              {% if quote[17] is not none %}
+                <td>{{ "%.2f" | format(quote[17]) }}</td>
+              {% else %}
+                <td>N/A</td>
+              {% endif %}
+              <td>
+                <div class="col">
+                  <form action="/associate/editquote" id="edit_quote_form" method="POST">
+                    <button form="edit_quote_form" type="submit" name="edit_quote_id" value="{{ quote[0] }}"> Edit</button>
+                  </form>
+                  <form action="/associate/delconfirm" id="del_quote_form" method="POST">
+                    <button form="del_quote_form" type="submit" name="del_quote_id" value="{{ quote[0] }}"> Del</button>
+                  </form>
+                  <form action="/associate/editconfirm" method="POST">
+                    <input type="hidden" name="quote_id" value="{{ quote[0] }}">
+                    <button type="submit">Finalize Quote</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

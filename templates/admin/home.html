@@ -1,0 +1,104 @@
+{% extends "./admin/layout.html" %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block main %}
+
+<div class="container-fluid">
+  <br>
+  <h2 class="text-center">Admin Homepage</h2>
+  <br>
+  <br>
+  <h3 class="text-center">Associates</h3>
+  <br>
+  <form action="/admin/addassoc" method="POST">
+    <button type="submit">Add Associate</button>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Associate ID</th>
+          <th>Username</th>
+          <th>Total Commission</th>
+          <th>Address</th>
+          <th>Name</th>
+          <th></th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quote in associate_data %}
+          <tr>
+            <td>{{ quote[0] }}</td>
+            <td>{{ quote[1] }}</td>
+            {% if quote[3] is not none %}
+              <td>{{ "%.2f" | format(quote[3]) }}</td>
+            {% else %}
+              <td>N/A</td>
+            {% endif %}
+            <td>{{ quote[4] }}</td>
+            <td>{{ quote[5] }} {{ quote[6] }}</td>
+            <!--<td>{{ quote[6] }}</td> -->
+            <td></td>
+            <td>
+              <div class="d-flex align-items-center"> 
+                <form action="/admin/editassoc" method="POST">
+                  <input type="hidden" name="edit_associate_id" value="{{ quote[0] }}">
+                  <button type="submit">Edit</button>
+                </form>
+                &nbsp;&nbsp;&nbsp;
+                <form action="/admin/delassocconfirm" method="POST">
+                  <input type="hidden" name="del_associate_id" value="{{ quote[0] }}">
+                  <button type="submit">Delete</button>
+                </form>
+            </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <h3 class="text-center">All Quotes</h3>
+  <br>
+  <form action="/admin/searchquote" method="POST">
+    <button type="submit">Search for Quote</button>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Quote ID</th>
+          <th>Date</th>
+          <th>Customer</th>
+          <th>Associate</th>
+          <th></th>
+          <th>Contact</th>
+          <th>Current Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quote in all_quotes %}
+          <tr>
+            <td>{{ quote[0] }}</td>
+            <td>{{ quote[1] }}</td>
+            <td>{{ quote[2] }}</td>
+            <td>{{ quote[3] }} {{ quote[4] }}</td>
+            <td></td>
+            <td>{{ quote[5] }}</td>
+            {% if quote[6] is not none %}
+              <td>{{ "%.2f" | format(quote[6]) }}</td>
+            {% else %}
+              <td>N/A</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

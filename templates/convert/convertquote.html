@@ -1,0 +1,100 @@
+{% extends "./convert/layout.html" %}
+
+{% block title %}
+  Convert Quote
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <br>
+  <h2 class="text-center">Convert Quote</h2>
+  <br>
+
+  <!-- Display Quote Information -->
+  <p class="lead">{{ quote[11] }}<br>
+  {{ quote[13] }}<br>
+  {{ quote[14] }}<br>
+  {{ quote[15] }}<br>
+  {{ quote[16] }}<br>
+  Contact Email: {{ quote[3] }}<br></p>
+  <hr>
+
+  <!-- Total Price -->
+  <hr>
+  <div class="mb-4">
+    <label for="total_price" class="form-label">Subtotal:</label>
+    <input type="text" class="form-control" id="total_price" name="total_price" value="{{ "{:.2f}".format(quote[17]) }}" readonly>
+  </div>
+  <hr>
+
+  <!-- Discount -->
+  <div class="mb-4">
+    <h3 class="text-center">Discount</h3>
+    <form action="/convert/convertquote" id="discount_form" method="POST">
+      <input type="hidden" name="convert_quote_id" form="discount_form" value="{{ quote_id }}">
+      <div class="row mb-3 align-items-center">
+        <div class="col-3 text-center">
+          <label>Discount Type:</label><br>
+          <div class="form-check form-check-inline">
+              <!-- Percentage option -->
+            {% if discount_values[6] > 0 %}
+              <input class="form-check-input" type="radio" name="discount_type" value="percentage" checked>
+              {% else %}
+              <input class="form-check-input" type="radio" name="discount_type" value="percentage">
+            {% endif %}
+            <label class="form-check-label" for="discount_perc">Percentage</label>
+          </div>
+          <div class="form-check form-check-inline">
+              <!-- Flat Amount option -->
+              {% if discount_values[7] > 0 %}
+              <input class="form-check-input" type="radio" name="discount_type" value="flat" checked>
+              {% else %}
+              <input class="form-check-input" type="radio" name="discount_type" value="flat">
+            {% endif %}            
+            <label class="form-check-label" for="discount_amt">Flat Amount</label>
+          </div>
+        </div>
+        <div class="col-6">
+          <label for="discount_amount">Discount Amount:</label>
+          {% if discount_values[6] > 0 %}
+          <input class="form-control" form="discount_form" type="number" name="discount_amount" min="0" step="1" max="100" value="{{ discount_values[6] }}">
+          {% else %}
+          <input class="form-control" form="discount_form" type="number" name="discount_amount" min="0" step=".01" max="{{ quote[17] }}" value="{{ discount_values[7] }}">
+          {% endif %}
+        </div>
+        <div class="col-3">
+          <button form="discount_form" type="submit" class="btn btn-primary">Apply Discount</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Reset Discount -->
+  <div class="mb-4">
+    <form action="/convert/convertquote" id="reset_discount_form" method="POST">
+      <input type="hidden" name="convert_quote_id" form="reset_discount_form" value="{{ quote_id }}">
+      <input type="hidden" name="reset_discount" form="reset_discount_form" value="1">
+      <button form="reset_discount_form" type="submit" class="btn btn-warning">Reset Discount</button>
+    </form>
+  </div>
+
+  <!-- Discounted Price -->
+  <hr>
+  <div class="mb-4">
+    <label for="total_price" class="form-label">Final Total:</label>
+    <input type="text" class="form-control" id="total_price" name="total_price" value="{{ "{:.2f}".format(discounted_price) }}" readonly>
+  </div>
+  <hr>
+
+  <!-- Confirm Discount Button -->
+  <div class="text-center">
+    <form action="/convert/convertconfirm" method="POST">
+      <input type="hidden" name="quote_id" value="{{ quote_id }}">
+      <button type="submit" name="next" class="btn btn-primary">
+        Confirm Discount
+      </button>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

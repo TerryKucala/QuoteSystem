@@ -1,0 +1,28 @@
+{% extends "./associate/layout.html" %}
+
+{% block title %}
+Login 
+{% endblock %}
+
+{% block main %}
+
+<div class="container container-fluid" style="max-width: 400px" id="loginPage">
+  <form action="/associate/login" method="post">
+    <div id="loginForm">
+      <h2 class="text-center">Login</h2>
+      <div class="form-group">
+        <label class="labelText" for="inputUserName">Username:</label>
+        <input autocomplete="off" type="text" class="form-control textInputBox" id="inputUserName" placeholder="Enter Username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label class="labelText" for="inputPassword">Password:</label>
+        <input autocomplete="off" type="password" class="form-control textInputBox" id="inputPassword" placeholder="Enter password" name="password" required>
+      </div>
+      <div class="form-group submitButton">
+        <button type="submit" class="btn btn-primary">Log-In</button><br>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

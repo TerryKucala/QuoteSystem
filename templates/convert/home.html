@@ -1,0 +1,53 @@
+{% extends "./convert/layout.html" %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block main %}
+<div class="container-fluid">
+  <br>
+  <h2 class="text-center">Quote Conversion Home</h2>
+  <br>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Quote ID</th>
+          <th>Date</th>
+          <th>Customer</th>
+          <th>Associate</th>
+          <th></th>
+          <th>Contact</th>
+          <th>Current Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quote in sanctioned_quotes %}
+          <tr>
+            <td>{{ quote[0] }}</td>
+            <td>{{ quote[1] }}</td>
+            <td>{{ quote[2] }}</td>
+            <td>{{ quote[3] }}</td>
+            <td>{{ quote[4] }}</td>
+            <td>{{ quote[5] }}</td>
+            {% if quote[6] is not none %}
+              <td>{{ "%.2f" | format(quote[6]) }}</td>
+            {% else %}
+              <td>N/A</td>
+            {% endif %}
+            <td>
+              <form action="/convert/convertquote" method="POST">
+                <input type="hidden" name="convert_quote_id" value="{{ quote[0] }}">
+                <button type="submit">Convert</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

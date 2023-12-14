@@ -1,0 +1,74 @@
+{% extends "./sanction/layout.html" %}
+
+{% block title %}
+Quote Information
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <br>
+    <h2 class="text-center">Quote Information</h2>
+    <br>
+
+    <!-- Display Quote Information -->
+    <p class="lead">{{ quote[11] }}<br>
+    {{ quote[13] }}<br>
+    {{ quote[14] }}<br>
+    {{ quote[15] }}<br>
+    {{ quote[16] }}<br>
+    Contact Email: {{ quote[3] }}<br></p>
+    <hr>
+
+    <!-- Display Line Items -->
+    <h3 class="text-center">Line Items</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in line_item_rows %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ "{:.2f}".format(row[2]) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+
+    <!-- Display Total Price -->
+    <div class="mb-4">
+        <label for="total_price" class="form-label">Subtotal:</label>
+        <input type="text" class="form-control" id="total_price" name="total_price" value="{{ "{:.2f}".format(quote[17]) }}" readonly>
+    </div>
+    <hr>
+
+    <!-- Display Discounted Price-->
+    <div class="mb-4">
+        <label for="discounted_price" class="form-label">Price After Discount:</label>
+        <input type="text" class="form-control" id="discounted_price" name="discounted_price" value="{{ "{:.2f}".format(discounted_price) }}" readonly>
+    </div>
+    <hr>
+
+    <!-- Display Secret Notes -->
+    <h3 class="text-center">Secret Notes</h3>
+    <ul class="list-group">
+        {% for row in sec_notes_rows %}
+            <li class="list-group-item">{{ row[1] }}</li>
+        {% endfor %}
+    </ul>
+    <hr>
+
+    <!-- Buttons to go back to /sanction and send email -->
+    <div class="text-center">
+        <a href="/sanction" class="btn btn-primary">Back to home</a>
+        <form action="/sanction/send_email" method="POST" id="sanction_form">
+        <input type="hidden" name="quote_id" value="{{ quote[0] }}">
+        <button type="submit" class="btn btn-success"> Sanction and send email to Customer</button>
+    </form>
+    </div>
+</div>
+{% endblock %}

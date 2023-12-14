@@ -1,0 +1,117 @@
+{% extends "./associate/layout.html" %}
+
+{% block title %}
+  Edit Quote
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <br>
+  <h2 class="text-center">Edit Quote</h2>
+  <br>
+
+  <!-- Display Quote Information -->
+  <p class="lead">{{ quote[11] }}<br>
+  {{ quote[13] }}<br>
+  {{ quote[14] }}<br>
+  {{ quote[15] }}<br>
+  {{ quote[16] }}<br>
+  Contact Email: {{ quote[3] }}<br></p>
+  <hr>
+
+  <!-- Line Items -->
+  <div class="mb-4">
+    <h3 class="text-center">Line Items</h3>
+    <form action="/associate/editquote" id="line_item_form" method="POST">
+    <input type="hidden" name="edit_quote_id" form="line_item_form" value="{{ quote_id }}">
+    <div class="row mb-3 align-items-center">
+      <div class="col-3 text-center">
+        <button form="line_item_form" type="submit" value="li" name="lisubmit" class="btn btn-success">Add Line Item</button>
+      </div>
+      <div class="col-6">
+        <input class="form-control" form="line_item_form" type="text" name="line_item" placeholder="Line Item Description" required>
+      </div>
+      <div class="col-3">
+        <input class="form-control" form="line_item_form" type="number" name="price" min="1" step="0.01" placeholder="Price" required>
+      </div>
+    </div>
+    </form>
+  </div>
+
+
+  <!-- Display Added Line Items -->
+  <div class="mb-4">
+    <h4 class="text-center">Added Line Items</h4>
+    <form action="/associate/editquote" method="POST">
+      <input type="hidden" name="edit_quote_id" value="{{ quote_id }}">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Price</th>
+            <th> <!-- Delete button --> </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in lirows %}
+            <tr>
+              <td>{{ row[1] }}</td>
+              <td>{{ "{:.2f}".format(row[2]) }}</td>
+              <td>
+                <button type="submit" class="btn btn-danger" name="del_line_item" value="{{ row[0] }}">Delete</button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </form>
+  </div>
+
+  <!-- Total Price -->
+  <hr>
+  <div class="mb-4">
+    <label for="total_price" class="form-label">Total Price</label>
+    <input type="text" class="form-control" id="total_price" name="total_price" value="{{ "{:.2f}".format(quote[17]) }}" readonly>
+  </div>
+  <hr>
+  <!-- Secret Notes -->
+  <div class="mb-4">
+    <h3 class="text-center">Secret Notes</h3>
+    <form action="/associate/editquote" id="notes_form" method="POST">
+      <input type="hidden" name="edit_quote_id" form="notes_form" value="{{ quote_id }}">
+      <div class="row mb-3 align-items-center">
+        <div class="col-3 text-center">
+          <button form="notes_form" type="submit" value="no" name="nosubmit" class="btn btn-success">Add Secret Note</button>
+        </div>
+        <div class="col-9">
+          <input class="form-control" form="notes_form" type="text" name="notes" placeholder="Note" required>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Secret Notes -->
+  <div class="mb-4">
+    <h3 class="text-center">Secret Notes</h3>
+    <form action="/associate/editquote" id="notes_form" method="POST">
+      <input type="hidden" name="edit_quote_id" value="{{ quote_id }}">
+      <ul class="list-group">
+        {% for row in notesrows %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ row[1] }}
+            <button type="submit" class="btn btn-danger" name="del_note" value="{{ row[0] }}">Delete</button>
+          </li>
+        {% endfor %}
+      </ul>
+    </form>
+  </div>
+
+  <!-- Save Changes Button -->
+  <div class="text-center">
+    <form action="/associate/editconfirm" method="POST">
+      <button type="submit" name="quote_id" class="btn btn-primary" value="{{ quote[0] }}">Save Changes</button>
+    </form>
+    </div>
+
+</div>
+{% endblock %}

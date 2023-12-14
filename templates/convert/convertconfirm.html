@@ -1,0 +1,37 @@
+{% extends "./convert/layout.html" %}
+
+{% block title %}
+Quote Information
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <br>
+    <h2 class="text-center">Quote Information</h2>
+    <br>
+
+    <!-- Display Quote Information -->
+    <p class="lead">{{ quote[11] }}<br>
+    {{ quote[13] }}<br>
+    {{ quote[14] }}<br>
+    {{ quote[15] }}<br>
+    {{ quote[16] }}<br>
+    Contact Email: {{ quote[3] }}<br></p>
+    <hr>
+
+    <!-- Display Discounted Price-->
+    <div class="mb-4">
+        <label for="discounted_price" class="form-label">Final Price:</label>
+        <input type="text" class="form-control" id="discounted_price" name="discounted_price" value="{{ "{:.2f}".format(discounted_price) }}" readonly>
+    </div>
+    <hr>
+
+    <!-- Button to send purchase order to EPS -->
+    <div class="text-center">
+        <form action="/convert/send_eps" method="POST">
+            <input type="hidden" name="quote_id" value="{{ quote_id }}">
+            <button type="submit" class="btn btn-success">Send Purchase Order</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

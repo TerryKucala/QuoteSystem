@@ -1,0 +1,31 @@
+{% extends "./admin/layout.html" %}
+
+{% block title %}
+  Delete Associate
+{% endblock %}
+
+{% block main %}
+
+<div class="container-fluid">
+  <br>
+  <h2 class="text-center">Delete {{ associate[1] }}?</h2>
+  <p class="text-center"> {{ associate[0] }}</p>
+  <p class="text-center"> {{ associate[1] }}</p>
+  <p class="text-center"> {{ associate[2] }}</p>
+  {% if associate[3] is not none %}
+    <p class="text-center"> {{ "%.2f" | format(associate[3]) }}</p>
+  {% else %}
+    <p class="text-center"> N/A</p>
+  {% endif %}
+  <p class="text-center"> {{ associate[4] }}</p>
+  <p class="text-center"> {{ associate[5] }}</p>
+  <p class="text-center"> {{ associate[6] }}</p>
+</div>
+
+<div class="form-group text-center">
+  <form action="/admin/delassoc" id="del_assoc_form" method="POST"></form>
+  <button form="del_assoc_form" type="submit" name="del_assoc_submit" value="{{ associate[0]}}"> Delete</button>
+  <a href="/admin"><button id="back_button" name="back_button">Back</button></a>
+</div>
+
+{% endblock %}

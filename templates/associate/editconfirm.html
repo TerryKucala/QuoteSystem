@@ -1,0 +1,47 @@
+{% extends "./associate/layout.html" %}
+
+{% block title %}
+  Finalize Quote
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <br>
+  <h2 class="text-center"> Finalize Quote </h2>
+  <br>
+
+  <!-- Display Quote Information -->
+  <p class="lead">{{ quote[11] }}<br>
+  {{ quote[13] }}<br>
+  {{ quote[14] }}<br>
+  {{ quote[15] }}<br>
+  {{ quote[16] }}<br></p>
+  <hr>
+  <table class="table table-striped">
+    <th>Line Item</th>
+    <th>Price</th>
+    {% for li in line_items %}
+      <tr>
+        <td>{{ li[1] }}</td>
+        <td>{{ li[2] }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  <p> Subtotal: ${{ total_price }} </p>
+  <div class="container container-fluid" style="max-width: 400px" id="loginPage">
+    <form action="/associate/finalizequote" method="POST"> <!-- Updated action -->
+      <div id="finalize_form">
+        <h2 class="text-center">Finalize Quote</h2>
+        <div class="form-group">
+          <label class="labelText" for="input_email">Customer Email:</label>
+          <input autocomplete="off" type="text" class="form-control textInputBox" id="input_email" value="{{ quote[3] }}" name="email" required>
+        </div>
+        <input type="hidden" name="quote_id" value="{{ quote[0] }}"> <!-- Add quote_id as hidden field -->
+        <div class="form-group submitButton">
+          <button type="submit" class="btn btn-primary">Finalize Quote</button><br>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
